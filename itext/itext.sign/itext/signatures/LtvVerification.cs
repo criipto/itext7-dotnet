@@ -44,6 +44,7 @@ address: sales@itextpdf.com
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Common.Logging;
 using Org.BouncyCastle.Asn1;
 using Org.BouncyCastle.Asn1.Ocsp;
@@ -51,6 +52,9 @@ using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Ocsp;
 using Org.BouncyCastle.Security;
 using Org.BouncyCastle.X509;
+using Org.BouncyCastle.X509.Store;
+
+using Org.BouncyCastle.Tsp;
 using iText.Forms;
 using iText.IO.Font;
 using iText.IO.Source;
@@ -92,7 +96,9 @@ namespace iText.Signatures {
             /// <summary>Include verification just for the signing certificate.</summary>
             SIGNING_CERTIFICATE,
             /// <summary>Include verification for the whole chain of certificates.</summary>
-            WHOLE_CHAIN
+            WHOLE_CHAIN,
+            /// <summary>Include verification for the whole chain of certificates including the TSA used to timestamp.</summary>
+            WHOLE_CHAIN_PLUS_TSA
         }
 
         /// <summary>
@@ -141,6 +147,15 @@ namespace iText.Signatures {
             X509Certificate[] xc = pk.GetCertificates();
             X509Certificate cert;
             X509Certificate signingCert = pk.GetSigningCertificate();
+
+            TimeStampToken tst = pk.GetTimeStampToken();
+            if (certOption == LtvVerification.CertificateOption.WHOLE_CHAIN_PLUS_TSA && tst != null) {
+                LOGGER.Info("Adding timestamp verification for " + signatureName);
+                IX509Store tstStore = tst.GetCertificates("collection"); // https://github.com/bcgit/bc-csharp/blob/93b32a75656955faf7996d0f3e0ed391968d2ac6/crypto/src/x509/store/X509StoreFactory.cs#L26
+                IEnumerable<X509Certificate> certs = tstStore.GetMatches(null).OfType<X509Certificate>();
+                xc = xc.Concat(certs).ToArray();
+            }
+
             LtvVerification.ValidationData vd = new LtvVerification.ValidationData();
             for (int k = 0; k < xc.Length; ++k) {
                 cert = (X509Certificate)xc[k];
