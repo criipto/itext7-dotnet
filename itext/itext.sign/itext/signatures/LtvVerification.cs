@@ -150,7 +150,7 @@ namespace iText.Signatures {
 
             TimeStampToken tst = pk.GetTimeStampToken();
             if (certOption == LtvVerification.CertificateOption.WHOLE_CHAIN_PLUS_TSA && tst != null) {
-                LOGGER.Info("Adding timestamp verification for " + signatureName);
+                LOGGER.LogInformation("Adding timestamp verification for " + signatureName);
                 IX509Store tstStore = tst.GetCertificates("collection"); // https://github.com/bcgit/bc-csharp/blob/93b32a75656955faf7996d0f3e0ed391968d2ac6/crypto/src/x509/store/X509StoreFactory.cs#L26
                 IEnumerable<X509Certificate> certs = tstStore.GetMatches(null).OfType<X509Certificate>();
                 xc = xc.Concat(certs).ToArray();
