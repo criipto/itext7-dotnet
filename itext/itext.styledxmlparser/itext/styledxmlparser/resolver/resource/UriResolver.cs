@@ -177,7 +177,7 @@ namespace iText.StyledXmlParser.Resolver.Resource
         /// <returns>the file URL</returns>
         private Uri UriAsFileUrl(String baseUriString)
         {
-            var currentDir = (Directory.GetCurrentDirectory() ?? "").TrimEnd("/");
+            var currentDir = (Directory.GetCurrentDirectory() ?? "").TrimEnd('/');
             if (baseUriString.Length == 0)
             {
                 isLocalBaseUri = true;
