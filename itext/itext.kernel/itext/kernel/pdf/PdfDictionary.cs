@@ -415,7 +415,7 @@ namespace iText.Kernel.Pdf {
         /// <param name="document">document to copy dictionary to.</param>
         /// <param name="excludeKeys">list of objects to exclude when copying dictionary.</param>
         /// <param name="allowDuplicating">
-        /// 
+        ///
         /// <see cref="PdfObject.CopyTo(PdfDocument, bool)"/>
         /// </param>
         /// <returns>copied dictionary.</returns>
@@ -432,11 +432,11 @@ namespace iText.Kernel.Pdf {
         /// <param name="document">document to copy dictionary to.</param>
         /// <param name="excludeKeys">list of objects to exclude when copying dictionary.</param>
         /// <param name="allowDuplicating">
-        /// 
+        ///
         /// <see cref="PdfObject.CopyTo(PdfDocument, bool)"/>
         /// </param>
         /// <param name="copyFilter">
-        /// 
+        ///
         /// <see cref="iText.Kernel.Utils.ICopyFilter"/>
         /// a filter to apply while copying arrays and dictionaries
         /// Use
@@ -509,7 +509,25 @@ namespace iText.Kernel.Pdf {
 
         /// <summary>Release content of PdfDictionary.</summary>
         protected internal virtual void ReleaseContent() {
-            map = null;
+            /*  Setting map to null here has been observed to produce
+                NullReferenceExceptions from the Get method for some documents.
+                Starting with a PdfDocument.Close() call, it seems that
+                shared PdfDictionary instances can be in play during PdfObject flushing.
+                Has been observed on PdfIndirectReference instances.
+            /* Call stack example:
+                System.NullReferenceException: Object reference not set to an instance of an object.
+                at KernelExtensions.Get[TKey,TValue](IDictionary`2 col, TKey key)
+                at iText.Kernel.Pdf.PdfDictionary.Get(PdfName key, Boolean asDirect)
+                at iText.Kernel.Pdf.PdfDictionary.GetAsNumber(PdfName key)
+                at iText.Kernel.Pdf.PdfReader.ReadObjectStream(PdfStream objectStream)
+                at iText.Kernel.Pdf.PdfReader.ReadObject(PdfIndirectReference reference, Boolean fixXref)
+                at iText.Kernel.Pdf.PdfReader.ReadObject(PdfIndirectReference reference)
+                at iText.Kernel.Pdf.PdfIndirectReference.GetRefersTo(Boolean recursively)
+                at iText.Kernel.Pdf.PdfWriter.FlushWaitingObjects(ICollection`1 forbiddenToFlush)
+                at iText.Kernel.Pdf.PdfDocument.Close()
+            */
+            // map = null;
+            map = new SortedDictionary<PdfName, PdfObject>();
         }
     }
 }
