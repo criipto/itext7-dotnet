@@ -177,10 +177,11 @@ namespace iText.StyledXmlParser.Resolver.Resource
         /// <returns>the file URL</returns>
         private Uri UriAsFileUrl(String baseUriString)
         {
+            var currentDir = (Directory.GetCurrentDirectory() ?? "").TrimEnd('/');
             if (baseUriString.Length == 0)
             {
                 isLocalBaseUri = true;
-                return new Uri(Directory.GetCurrentDirectory() + "/");
+                return new Uri(currentDir + "/");
             }
             Uri baseAsFileUrl = null;
             try
@@ -191,7 +192,7 @@ namespace iText.StyledXmlParser.Resolver.Resource
                 }
                 else
                 {
-                    Uri baseUri = new Uri(Directory.GetCurrentDirectory() + "/");
+                    Uri baseUri = new Uri(currentDir + "/");
                     baseAsFileUrl = new Uri(baseUri, NormalizeFilePath(baseUriString));
                 }
                 isLocalBaseUri = true;
