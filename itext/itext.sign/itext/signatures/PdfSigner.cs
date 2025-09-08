@@ -41,6 +41,7 @@ using iText.Kernel.Font;
 using iText.Kernel.Geom;
 using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Annot;
+using iText.Kernel.Pdf.Xobject;
 using iText.Layout.Properties;
 using iText.Pdfa;
 using iText.Signatures.Exceptions;
@@ -445,6 +446,14 @@ namespace iText.Signatures {
         /// </returns>
         public virtual int GetPageNumber() {
             return appearance.GetPageNumber();
+        }
+
+        [Obsolete("Breaks in next major version")]
+        // https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/itext/samples/sandbox/signatures/appearance/SignatureAppearanceLayersExample.cs
+        // we might have to change around to GetSignatureField and operate on that
+        public virtual PdfFormXObject GetBackgroundLayer()
+        {
+            return appearance.GetBackgroundLayer();
         }
 
         /// <summary>
