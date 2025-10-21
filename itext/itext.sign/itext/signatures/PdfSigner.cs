@@ -129,7 +129,7 @@ namespace iText.Signatures {
         /// <param name="reader">PdfReader that reads the PDF file</param>
         /// <param name="outputStream">OutputStream to write the signed PDF file</param>
         /// <param name="properties">
-        /// 
+        ///
         /// <see cref="iText.Kernel.Pdf.StampingProperties"/>
         /// for the signing document. Note that encryption will be
         /// preserved regardless of what is set in properties.
@@ -148,13 +148,13 @@ namespace iText.Signatures {
         /// <param name="outputStream">OutputStream to write the signed PDF file</param>
         /// <param name="path">File to which the output is temporarily written</param>
         /// <param name="stampingProperties">
-        /// 
+        ///
         /// <see cref="iText.Kernel.Pdf.StampingProperties"/>
         /// for the signing document. Note that encryption will be
         /// preserved regardless of what is set in properties.
         /// </param>
         /// <param name="signerProperties">
-        /// 
+        ///
         /// <see cref="SignerProperties"/>
         /// bundled properties to be used in signing operations.
         /// </param>
@@ -186,7 +186,7 @@ namespace iText.Signatures {
         /// <param name="outputStream">OutputStream to write the signed PDF file</param>
         /// <param name="path">File to which the output is temporarily written</param>
         /// <param name="properties">
-        /// 
+        ///
         /// <see cref="iText.Kernel.Pdf.StampingProperties"/>
         /// for the signing document. Note that encryption will be
         /// preserved regardless of what is set in properties.
@@ -265,7 +265,7 @@ namespace iText.Signatures {
         /// <para />
         /// </remarks>
         /// <returns>
-        /// 
+        ///
         /// <see cref="PdfSignatureAppearance"/>
         /// object.
         /// </returns>
@@ -393,8 +393,18 @@ namespace iText.Signatures {
         /// The page number of the signature field which this signature
         /// appearance is associated with.
         /// </returns>
-        public virtual int GetPageNumber() {
+        public virtual int GetPageNumber()
+        {
             return appearance.GetPageNumber();
+        }
+
+        [Obsolete("Breaks in next major version")]
+        // https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/itext/samples/sandbox/signatures/appearance/SignatureAppearanceLayersExample.cs
+        // we might have to change around to GetSignatureField and operate on that - the `CreateSubField` should then accept the signature field and use that for `N`.
+        public override PdfFormXObject GetBackgroundLayer()
+        {
+
+            return appearance.GetLayer0();
         }
 
         /// <summary>
@@ -412,7 +422,8 @@ namespace iText.Signatures {
         /// this signature appearance is associated with.
         /// </param>
         /// <returns>this instance to support fluent interface.</returns>
-        public virtual PdfSigner SetPageNumber(int pageNumber) {
+        public virtual PdfSigner SetPageNumber(int pageNumber)
+        {
             appearance.SetPageNumber(pageNumber);
             return this;
         }
@@ -970,7 +981,7 @@ namespace iText.Signatures {
         /// method if the signature field already exists.
         /// </remarks>
         /// <param name="acroForm">
-        /// 
+        ///
         /// <see cref="iText.Forms.PdfAcroForm"/>
         /// object in which the signature field will be populated
         /// </param>
@@ -1016,7 +1027,7 @@ namespace iText.Signatures {
         /// method if the signature field doesn't exist.
         /// </remarks>
         /// <param name="acroForm">
-        /// 
+        ///
         /// <see cref="iText.Forms.PdfAcroForm"/>
         /// object in which new signature field will be added
         /// </param>
