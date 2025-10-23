@@ -453,7 +453,7 @@ namespace iText.Signatures {
         // we might have to change around to GetSignatureField and operate on that
         public virtual PdfFormXObject GetBackgroundLayer()
         {
-            return appearance.GetBackgroundLayer();
+            return appearance.GetLayer0();
         }
 
         /// <summary>
