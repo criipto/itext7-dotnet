@@ -38,6 +38,7 @@ using iText.Kernel.Font;
 using iText.Kernel.Geom;
 using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Annot;
+using iText.Kernel.Pdf.Xobject;
 using iText.Layout.Properties;
 using iText.Pdfa;
 using iText.Signatures.Exceptions;
@@ -401,7 +402,7 @@ namespace iText.Signatures {
         [Obsolete("Breaks in next major version")]
         // https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/itext/samples/sandbox/signatures/appearance/SignatureAppearanceLayersExample.cs
         // we might have to change around to GetSignatureField and operate on that - the `CreateSubField` should then accept the signature field and use that for `N`.
-        public override PdfFormXObject GetBackgroundLayer()
+        public virtual PdfFormXObject GetBackgroundLayer()
         {
 
             return appearance.GetLayer0();
