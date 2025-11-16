@@ -29,6 +29,11 @@ namespace iText.Signatures
         {
         }
 
+        public MultipleAppearancesPdfSigner(PdfReader reader, Stream outputStream, String path, StampingProperties stampingProperties, SignerProperties signerProperties)
+            : base(reader, outputStream, path, stampingProperties, signerProperties)
+        {
+        }
+
         [Obsolete]
         // TODO: remove when new `GetSignatureField` is adopted.
         public override PdfSignatureAppearance GetSignatureAppearance()
