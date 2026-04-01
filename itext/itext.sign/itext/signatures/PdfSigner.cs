@@ -1457,7 +1457,7 @@ namespace iText.Signatures {
             }
         }
 
-        private String GetFieldName() {
+        protected String GetFieldName() {
             UpdateFieldName();
             return signerProperties.GetFieldName();
         }
